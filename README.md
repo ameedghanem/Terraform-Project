@@ -1,5 +1,7 @@
-## Terraform project - IaaC
-    ![](https://github.com/ameedghanem/Terraform-Project/blob/main/logo/logo.png)
+![](https://github.com/ameedghanem/Terraform-Project/blob/main/logo/logo.png)
+
+# Terraform project - IaaC
+  
 ## Prerequesties
     terraform
 
