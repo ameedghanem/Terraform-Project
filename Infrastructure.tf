@@ -38,8 +38,6 @@ resource "aws_instance" "my_instance" {
 # Create Security Group (SG)
 resource "aws_security_group" "allow_web" {
   name = "allow_web_traffic"
-  description = "Allow inbound web traffic"
-  vpc_id = data.aws_vpc.default_vpc.id
 
   ingress {
     cidr_blocks = [ "0.0.0.0/0" ]
@@ -65,8 +63,16 @@ resource "aws_security_group" "allow_web" {
     protocol = "tcp"
   }
 
+  egress  {
+    cidr_blocks = [ "0.0.0.0/0" ]
+    description = "All networks allowed"
+    from_port = 0
+    to_port = 0
+    protocol = "-1"
+  }
+
   tags = {
-    "Name" = "fursa-sg"
+    "Name" = "test-sg"
   }
 
 }
@@ -76,10 +82,9 @@ data "aws_vpc" "default_vpc" {
   default = true
 }
 
-# choose the default subnet
-data "aws_subnet" "default_subnet" {
-  default_for_az = true 
-  vpc_id         = "${data.aws_vpc.default_vpc.id}"
+# get subnet ids in the default VPC
+data "aws_subnet_ids" "default_subnet" {
+  vpc_id = data.aws_vpc.default_vpc.id
 }
 
 # Crate an internet Gateway
@@ -106,7 +111,7 @@ resource "aws_route_table" "my_rtb" {
 
 # Create a RTB association
 resource "aws_route_table_association" "a" {
-  subnet_id      = data.aws_subnet.default_subnet.id
+  subnet_id      = data.aws_subnet_ids.default_subnet.id
   route_table_id = aws_route_table.my_rtb.id 
 }
 
@@ -127,16 +132,28 @@ resource "aws_alb_target_group_attachment" "test" {
 }
 
 # create a load balancer
-resource "aws_lb" "fursa-lb" {
+resource "aws_lb" "fursa_lb" {
   name               = "my-lb-tf"
   internal           = false
   load_balancer_type = "application"
   security_groups    = [aws_security_group.allow_web.id]
-  subnets            = [data.aws_subnet.default_subnet.id]
+  subnets            = [data.aws_subnet_ids.default_subnet.id]
 
   enable_deletion_protection = true
 
   tags = {
     Environment = "production"
+  }
+}
+
+# add a listener to the load balancer
+resource "aws_lb_listener" "my_aws_lb_listener" {
+  load_balancer_arn = aws_lb.fursa_lb.arn
+  port              = "80"
+  protocol          = "HTTP"
+
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.my_tg.arn
   }
 }
