@@ -1,12 +1,14 @@
+## The big picture
+![](https://github.com/ameedghanem/Terraform-Project/blob/main/logo/logo.png)
+
 # Terraform project - IaaC
   A terraform code that sets up the following infrastructure:
   - 2 Instances (t2.micro) - with NGINX running on each
   - An Application Load Balancer that forwards the users’ traffic to the servers
 
-## The big picture
-![](https://github.com/ameedghanem/Terraform-Project/blob/main/logo/logo.png)
-
 ## Prerequesties
+    Amazon account
+    IAM user with access key and secret key
     terraform
 
 ## Installation
