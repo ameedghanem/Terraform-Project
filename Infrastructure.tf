@@ -87,32 +87,11 @@ data "aws_subnet_ids" "default_subnet" {
   vpc_id = data.aws_vpc.default_vpc.id
 }
 
-# Crate an internet Gateway
-resource "aws_internet_gateway" "my_gtw" {
-  vpc_id = data.aws_vpc.default_vpc.id
-
-  tags = {
-    Name = "my_gtw"
+data "aws_internet_gateway" "my_gtw" {
+  filter {
+    name   = "attachment.vpc-id"
+    values = [data.aws_vpc.default_vpc.id]
   }
-}
-
-# create a routing table
-resource "aws_route_table" "my_rtb" {
-  vpc_id = data.aws_vpc.default_vpc.id
-
-  route {
-      cidr_block = "0.0.0.0/0" # IPv4
-      gateway_id = aws_internet_gateway.my_gtw.id
-  }
-  tags = {
-    Name = "my_rtb"
-  }
-}
-
-# Create a RTB association
-resource "aws_route_table_association" "a" {
-  subnet_id      = data.aws_subnet_ids.default_subnet.id
-  route_table_id = aws_route_table.my_rtb.id 
 }
 
 # create a target group
@@ -137,9 +116,9 @@ resource "aws_lb" "fursa_lb" {
   internal           = false
   load_balancer_type = "application"
   security_groups    = [aws_security_group.allow_web.id]
-  subnets            = [data.aws_subnet_ids.default_subnet.id]
+  subnets            = data.aws_subnet_ids.default_subnet.ids
 
-  enable_deletion_protection = true
+  enable_deletion_protection = false
 
   tags = {
     Environment = "production"
