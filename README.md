@@ -1,4 +1,4 @@
-![visitors](https://profile-counter.glitch.me/ameedghanem/count.svg)
+![visitors](https://visitor-badge.glitch.me/badge?page_id=ameedghanem.Terraform-Project.issue.1) <br/>
 
 # Terraform project - IaaC
 ![](https://github.com/ameedghanem/Terraform-Project/blob/main/logo/logo.png)
