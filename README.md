@@ -1,7 +1,3 @@
-![visitors](https://visitor-badge.glitch.me/badge?page_id=ameedghanem.Terraform-Project.issue.1)
-![build status](https://api.travis-ci.com/ameedghanem/Terraform-Project.svg?branch=main) <br/>
-
-
 # Terraform project - IaaC
 ![](https://github.com/ameedghanem/Terraform-Project/blob/main/logo/logo.png)
 
