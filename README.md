@@ -1,3 +1,5 @@
+![visitors](https://profile-counter.glitch.me/ameedghanem/count.svg)
+
 # Terraform project - IaaC
 ![](https://github.com/ameedghanem/Terraform-Project/blob/main/logo/logo.png)
 
