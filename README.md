@@ -13,7 +13,7 @@
 ## Installation
     $ git clone https://github.com/ameedghanem/Terraform_Project.git
       ...
-    $ cd Terraform_Project
+    $ cd Terraform_Project/
 
 ## Deployment
     $ terraform init
