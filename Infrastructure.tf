@@ -87,13 +87,6 @@ data "aws_subnet_ids" "default_subnet" {
   vpc_id = data.aws_vpc.default_vpc.id
 }
 
-data "aws_internet_gateway" "my_gtw" {
-  filter {
-    name   = "attachment.vpc-id"
-    values = [data.aws_vpc.default_vpc.id]
-  }
-}
-
 # create a target group
 resource "aws_lb_target_group" "my_tg" {
   name     = "terraform-lb-tg"
